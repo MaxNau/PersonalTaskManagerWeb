@@ -1,0 +1,15 @@
+﻿<form class="reg-form" name="loginForm">
+    <h2 class="form-login-heading" style="text-align:center">{{appName}}</h2>
+    <input name="userName" type="text" class="form-control" placeholder="Username" data-ng-model="User.Name" required autofocus>
+    <div ng-messages="registrationForm.userName.$error">
+        <div ng-message="required" ng-show="registrationForm.userName.$touched && registrationForm.userName.$invalid">This field is required</div>
+    </div>
+    <input name="password" type="password" class="form-control" placeholder="Password" data-ng-model="User.Password" required>
+    <div ng-messages="registrationForm.password.$error">
+        <div ng-message="required" ng-show="registrationForm.password.$touched && registrationForm.password.$invalid">This field is required</div>
+    </div>
+    <div data-ng-hide="message === ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+        {{message}}
+    </div>
+    <button class="btn btn-info center-block" data-ng-click="login()">Login</button>
+</form>
