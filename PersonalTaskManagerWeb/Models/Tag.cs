@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PersonalTaskManagerWeb.Models
 {
@@ -9,5 +8,10 @@ namespace PersonalTaskManagerWeb.Models
         public string Name { get; set; }
         public string Slug { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+
+        public Tag()
+        {
+            Tasks = new List<Task>();
+        }
     }
 }

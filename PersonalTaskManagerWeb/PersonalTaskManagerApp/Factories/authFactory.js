@@ -1,5 +1,4 @@
-﻿
-angular
+﻿angular
     .module('PersonalTaskManager')
     .service('authService', ['$http', function ($http) {
         

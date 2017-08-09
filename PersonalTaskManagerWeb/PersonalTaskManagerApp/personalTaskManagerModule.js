@@ -16,7 +16,17 @@
 
             $routeProvider.when("/tasks", {
                 templateUrl: "personaltaskmanagerapp/views/tasks.html",
-                controller: 'RegistrationController'
+                controller: 'tasksController'
+            });
+
+            $routeProvider.when("/addnewtask", {
+                templateUrl: "personaltaskmanagerapp/views/addtask.html",
+                controller: 'tasksController'
+            });
+
+            $routeProvider.when("/edittask", {
+                templateUrl: "personaltaskmanagerapp/views/edittask.html",
+                controller: 'tasksController'
             });
 
             $locationProvider.html5Mode({

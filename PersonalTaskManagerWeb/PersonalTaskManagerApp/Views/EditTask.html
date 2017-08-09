@@ -1,0 +1,15 @@
+﻿<div style="text-align:center; max-width:500px; margin: 0 auto;">
+    <h1>Edit task</h1>
+    <form style=" max-width:500px; margin: 0 auto;" ng-model="task">
+        <div>
+            <input style="width:100%" type="text" placeholder="Task title" value="{{task.title}}"/>
+        </div>
+        <div>
+            <textarea style="width:100%" placeholder="Task description">{{task.content}}</textarea>
+        </div>
+    </form>
+    <div>
+        <button style="display:inline-block" ng-click="editTask()">Save</button>
+        <button style="display:inline-block" ng-click="cancel()">Cancel</button>
+    </div>
+</div>
