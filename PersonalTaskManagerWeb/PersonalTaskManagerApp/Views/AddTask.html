@@ -2,6 +2,10 @@
     <h1>Add new task</h1>
     <div ng-include="'PersonalTaskManagerApp/Views/Includes/TaskDetails.html'"></div>
     <div>
+        <div id="tags" style="display:inline-block; width:100%">
+            <span ng-repeat="tag in tags" class="tag label label-info" style="display:inline; margin-left: 5px">{{tag.Name}}<span><a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a></span></span>
+            <input style="display:inline; width: inherit" ng-model="tagName" ng-keyup="$event.keyCode === 13 && addNewTag(tagName)" type="text" />
+        </div>
         <button class="btn btn-info" ng-click="addTask()">Add</button>
         <button class="btn btn-info" ng-click="cancel()">Cancel</button>
     </div>

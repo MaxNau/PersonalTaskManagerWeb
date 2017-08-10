@@ -10,6 +10,18 @@
         $scope.maxSize = 4;
         $scope.totalItems;
 
+        var Tags = [Tag = {
+            Id: 0,
+            Name: "Tag1",
+            Slug: ""
+        },
+        Tag = {
+            Id: 0,
+            Name: "Tag2",
+            Slug: ""
+        }
+        ];
+
         var tasks = [];
 
         $scope.addNewTask = function () {
@@ -25,7 +37,7 @@
                 Id: 0,
                 Title: $scope.title,
                 Content: $scope.content,
-                Tags: [],
+                Tags: Tags,
                 LastModified: new Date()
             };
 
@@ -84,12 +96,31 @@
             $scope.task = tasksService.getTaskData();
         }
 
-        var paginate = function() {
+        var paginate = function () {
             $scope.$watch('currentPage + numPerPage', function () {
                 var begin = ($scope.currentPage - 1) * $scope.numPerPage
                     , end = begin + $scope.numPerPage;
 
                 $scope.filteredTasks = tasks.slice(begin, end);
             });
+        };
+
+        $scope.tags = Tags;
+
+        $scope.addTag = function ($event) {
+            // var $newdiv1 = $("<div id='object1'></div>"),
+            $event.cancelBubble = true;
+            $event.returnValue = false;
+            var myElements = angular.element(document.querySelector('#tags'));
+            myElements.append('<span class="tag label label-info" style="display:inline">Tag<span><a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a></span></span>');
+        };
+
+        $scope.addNewTag = function (tagName) {
+            Tag = {
+                Id: 0,
+                Name: tagName
+            };
+
+            $scope.tags.push(Tag);
         };
     });
