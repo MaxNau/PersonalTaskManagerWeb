@@ -1,6 +1,6 @@
 ﻿angular
     .module('PersonalTaskManager')
-    .service('tasksService', ['$http', function ($http) {
+    .service('tasksService', ['$http', 'authService', function ($http, authService) {
 
         var serviceBase = 'http://localhost:55797/';
         var title; 
@@ -15,9 +15,13 @@
         };
 
         this.getTasks = function () {
+            var a = authService.getToken();
             var request = $http({
                 method: "get",
-                url: serviceBase + "api/tasks",
+                headers: {
+                    "Authorization": 'Bearer ' + authService.getToken()
+                },
+                url: serviceBase + "api/tasks"
             });
 
             return request;
@@ -26,7 +30,7 @@
         this.getTask = function (id) {
             var request = $http({
                 method: "get",
-                url: serviceBase + "api/tasks/" + id,
+                url: serviceBase + "api/tasks/" + id
             });
 
             return request;
@@ -55,8 +59,8 @@
         this.putTask = function (id, Task) {
             var request = $http({
                 method: "put",
-                url: serviceBase + "api/tasks",
-                data: [id, Task]
+                url: serviceBase + "api/tasks/" + id,
+                data: Task 
             });
         };
 

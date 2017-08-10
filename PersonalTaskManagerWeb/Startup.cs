@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using PersonalTaskManagerWeb.Providers;
@@ -10,13 +11,14 @@ namespace PersonalTaskManagerWeb
 {
     public class Startup
     {
-        public static OAuthAuthorizationServerOptions OAuthServerOptions;
+        public static OAuthAuthorizationServerOptions OAuthServerOptions { get; set; }
 
         public void Configuration(IAppBuilder app)
         {
             HttpConfiguration httpConfig = new HttpConfiguration();
             WebApiConfig.Register(httpConfig);
             app.UseWebApi(httpConfig);
+            app.UseCors(CorsOptions.AllowAll);
             ConfigureOAuth(app);
         }
 
@@ -34,7 +36,7 @@ namespace PersonalTaskManagerWeb
             // Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
+            app.UseOAuthBearerTokens(OAuthServerOptions);
         }
     }
 }

@@ -8,6 +8,9 @@ using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PersonalTaskManagerWeb.Controllers
 {
@@ -41,14 +44,29 @@ namespace PersonalTaskManagerWeb.Controllers
             return Ok();
         }
 
-        private JObject GenerateLocalAccessTokenResponse(string userName)
+        public async Task<IHttpActionResult> Login(User user)
         {
+            IdentityUser identity = await repository.FindUser(user.Name, user.Password);
 
+            if (identity != null)
+            {
+                var token = GenerateLocalAccessTokenResponse(identity.UserName);
+
+                return Ok();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+        private JObject GenerateLocalAccessTokenResponse(string userName)
+        { 
             var tokenExpiration = TimeSpan.FromDays(3);
 
             ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
 
-            identity.AddClaim(new Claim(ClaimTypes.Name, userName));
+           
 
             var props = new AuthenticationProperties()
             {
@@ -58,16 +76,18 @@ namespace PersonalTaskManagerWeb.Controllers
 
             var ticket = new AuthenticationTicket(identity, props);
 
-            var accessToken = Startup.OAuthServerOptions.AccessTokenFormat.Protect(ticket);
+          //  var accessToken = Startup.OAuthServerOptions.AccessTokenFormat.Protect(ticket);
 
             JObject tokenResponse = new JObject(
                                         new JProperty("userName", userName),
-                                        new JProperty("access_token", accessToken),
                                         new JProperty("token_type", "bearer"),
                                         new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),
                                         new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
                                         new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
         );
+            var token = JsonConvert.DeserializeObject(tokenResponse.ToString());
+            identity.AddClaim(new Claim(ClaimTypes.Name, userName));
+            identity.AddClaim(new Claim("AcessToken", string.Format("Bearer {0}", tokenResponse["access_token"])));
 
             return tokenResponse;
         }

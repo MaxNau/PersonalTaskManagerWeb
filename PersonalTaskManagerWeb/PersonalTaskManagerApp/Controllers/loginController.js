@@ -10,7 +10,8 @@
     $scope.message = "";
  
     $scope.login = function () {
-        authService.login($scope.User).then(function (response) {
+        authService.postLogin($scope.User).then(function (response) {
+            authService.storeToken(response.data.access_token);
             $location.path('/tasks');
         },
          function (err) {
@@ -18,4 +19,4 @@
          });
     };
  
-}]);
+});

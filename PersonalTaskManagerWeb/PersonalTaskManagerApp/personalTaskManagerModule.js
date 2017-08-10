@@ -1,4 +1,4 @@
-﻿angular.module('PersonalTaskManager', ['ngRoute'])
+﻿angular.module('PersonalTaskManager', ['ngRoute', 'ui.bootstrap'])
     .config(function ($routeProvider, $locationProvider) {
             $routeProvider.when("/", {
                 templateUrl: "personaltaskmanagerapp/views/home.html"
@@ -11,7 +11,7 @@
 
             $routeProvider.when("/login", {
                 templateUrl: "personaltaskmanagerapp/views/login.html",
-                controller: 'RegistrationController'
+                controller: 'loginController'
             });
 
             $routeProvider.when("/tasks", {

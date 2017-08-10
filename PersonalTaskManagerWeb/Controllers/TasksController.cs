@@ -1,4 +1,6 @@
-﻿using PersonalTaskManagerWeb.Repositories;
+﻿using Newtonsoft.Json;
+using PersonalTaskManagerWeb.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -37,7 +39,8 @@ namespace PersonalTaskManagerWeb.Controllers
             return Ok();
         }
 
-        public async Task<IHttpActionResult> PutTask(int id, Models.Task task)
+        [HttpPut]
+        public async Task<IHttpActionResult> PutTask([FromUri] int id, Models.Task task)
         {
             await repository.Update(task);
             return Ok();

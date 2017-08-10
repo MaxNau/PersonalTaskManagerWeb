@@ -4,6 +4,13 @@
 
         $scope.savedSuccessfully = false;
         $scope.message = "";
+        $scope.filteredTodos = [];
+        $scope.currentPage = 1;
+        $scope.numPerPage = 3;
+        $scope.maxSize = 4;
+        $scope.totalItems;
+
+        var tasks = [];
 
         $scope.addNewTask = function () {
             $location.path('addnewtask');
@@ -11,7 +18,7 @@
 
         $scope.cancel = function () {
             $location.path('tasks');
-        }
+        };
 
         $scope.addTask = function () {
             var Task = {
@@ -25,6 +32,20 @@
             tasksService.postTask(Task);
         };
 
+        $scope.editTask = function () {
+            var task = tasksService.getTaskData();
+
+            var Task = {
+                Id: task.id,
+                Title: $scope.task.title,
+                Content: $scope.task.content,
+                Tags: [],
+                LastModified: new Date()
+            };
+
+            tasksService.putTask(Task.Id, Task);
+        };
+
         $scope.removeTask = function (id, index) {
             tasksService.deleteTask(id);
             $scope.tasks.splice(index, 1);
@@ -35,12 +56,15 @@
                 .then(function (response) {
                     $location.path('edittask');
                     tasksService.storeTaskData(response.data);
+
                 });
         };
 
         var getTasks = function () {
             tasksService.getTasks().then(function (response) {
-                $scope.tasks = response.data;
+                tasks = response.data;
+                $scope.totalItems = tasks.length;
+                paginate();
             },
                 function (response) {
                     var errors = [];
@@ -59,4 +83,13 @@
         else if ($location.path() === '/edittask'){
             $scope.task = tasksService.getTaskData();
         }
+
+        var paginate = function() {
+            $scope.$watch('currentPage + numPerPage', function () {
+                var begin = ($scope.currentPage - 1) * $scope.numPerPage
+                    , end = begin + $scope.numPerPage;
+
+                $scope.filteredTasks = tasks.slice(begin, end);
+            });
+        };
     });

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Owin;
+using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using PersonalTaskManagerWeb.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,9 @@ namespace PersonalTaskManagerWeb
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+ 
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -22,7 +26,8 @@ namespace PersonalTaskManagerWeb
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            var formatters = GlobalConfiguration.Configuration.Formatters;
+            formatters.Remove(formatters.XmlFormatter);
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
