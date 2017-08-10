@@ -1,4 +1,4 @@
-﻿<div id="tasks-page-container">
+﻿<div id="tasks-page-container" ng-show="$root.authenticated">
     <h1 id="tasks-page-header">All tasks</h1>
     <button id="add-new-task-btn" class="btn btn-primary" ng-click="addNewTask()">Add new task</button>
     <div>
@@ -8,9 +8,13 @@
             </h2>
             <button class="ui-btn glyphicon glyphicon-edit icon-button" style="float:right" ng-click="getTask(task.id)"></button>
             <button class="ui-btn ui-btn-inline glyphicon glyphicon-trash icon-button" ng-click="removeTask(task.id, $index)"></button>
-            <p style="margin-top:20px; text-align:justify">
+            <p style="margin-top:20px; margin-bottom:25px; text-align:justify">
                 {{task.content}}
             </p>
+            <ul style="float:left; list-style:none;
+    padding-left:0;">
+                <li style="display: inline; margin-left: 5px;" ng-repeat="tag in task.tags"><a>{{tag.name}}</a></li>
+            </ul>
             <time style="float:right" datetime="yyyy-mm-dd hh:mm">
                 {{task.lastModified}}
             </time>
@@ -24,4 +28,7 @@
             </ui>
         </div>
     </div>
+</div>
+<div ng-show="!$root.authenticated">
+    <h1>Not authenticated</h1>
 </div>

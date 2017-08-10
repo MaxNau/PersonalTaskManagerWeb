@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using PersonalTaskManagerWeb.Repositories;
-using System;
+﻿using PersonalTaskManagerWeb.Repositories;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace PersonalTaskManagerWeb.Controllers
 {
+    [Authorize]
     public class TasksController : ApiController
     {
         private TasksRepository repository = null;

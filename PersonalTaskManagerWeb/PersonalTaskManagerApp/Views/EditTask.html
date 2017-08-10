@@ -7,6 +7,10 @@
         <div>
             <textarea placeholder="Task description" ng-model="task.content">{{task.content}}</textarea>
         </div>
+        <div id="tags" style="display:inline-block; width:100%">
+            <span ng-repeat="tag in task.tags" class="tag label label-info" style="display:inline; margin-left: 5px">{{tag.name}}<span><a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a></span></span>
+            <input style="display:inline; width: inherit" ng-model="tagName" ng-keyup="$event.keyCode === 13 && addNewTag(tagName)" type="text" />
+        </div>
     </form>
     <div>
         <button type="submit" class="btn btn-info" ng-click="editTask()">Save</button>

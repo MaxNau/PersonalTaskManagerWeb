@@ -4,6 +4,8 @@
         
         var serviceBase = 'http://localhost:55797/';
         var Token;
+        var authenticated = false;
+        var isInRole;
 
         this.storeToken = function (token) {
             Token = token;
@@ -29,11 +31,35 @@
             var request = $http({
                 method: "post",
                 //headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                url: serviceBase + "token",
-                data: data
+                url: serviceBase + "api/account/login",
+                data: User
             });
 
             return request;
         };
 
+        this.logout = function () {
+            var request = $http({
+                method: "post",
+                url: serviceBase + "api/account/logout"
+            });
+
+            return request;
+        };
+
+        this.isAuthenticated = function () {
+            var request = $http({
+                method: "get",
+                url: serviceBase + "api/account/IsAuthorized"
+            });
+
+            return request;
+        };
+
+        this.getAuth = function () {
+            this.isAuthenticated().then(function (response) {
+                authenticated = response.data;
+            });
+            return authenticated;
+        };
     }]);

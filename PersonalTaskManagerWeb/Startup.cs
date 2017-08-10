@@ -18,11 +18,11 @@ namespace PersonalTaskManagerWeb
             HttpConfiguration httpConfig = new HttpConfiguration();
             WebApiConfig.Register(httpConfig);
             app.UseWebApi(httpConfig);
-            app.UseCors(CorsOptions.AllowAll);
-            ConfigureOAuth(app);
+            //app.UseCors(CorsOptions.AllowAll);
+            //ConfigureOAuth(app);
         }
 
-        public void ConfigureOAuth(IAppBuilder app)
+       /* public void ConfigureOAuth(IAppBuilder app)
         {
             OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
@@ -37,6 +37,6 @@ namespace PersonalTaskManagerWeb
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
             app.UseOAuthBearerTokens(OAuthServerOptions);
-        }
+        }*/
     }
 }

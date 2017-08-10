@@ -1,6 +1,6 @@
 ﻿angular
     .module('PersonalTaskManager')
-    .controller('tasksController', function ($scope, $location, tasksService) {
+    .controller('tasksController', function ($scope, $rootScope, $location, tasksService, authService) {
 
         $scope.savedSuccessfully = false;
         $scope.message = "";
@@ -9,6 +9,8 @@
         $scope.numPerPage = 3;
         $scope.maxSize = 4;
         $scope.totalItems;
+
+        $rootScope.authenticated = authService.getAuth();
 
         var Tags = [Tag = {
             Id: 0,

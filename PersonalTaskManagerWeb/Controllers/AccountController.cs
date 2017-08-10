@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNet.Identity;
 using PersonalTaskManagerWeb.Models;
 using PersonalTaskManagerWeb.Repositories;
-using System;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Newtonsoft.Json.Linq;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.OAuth;
 using System.Net.Http;
-using Newtonsoft.Json;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Net;
+using System.Web.Security;
+using System.Web;
 
 namespace PersonalTaskManagerWeb.Controllers
 {
@@ -24,6 +21,7 @@ namespace PersonalTaskManagerWeb.Controllers
             repository = new AuthRepository();
         }
 
+        [HttpPost]
         [Route("register")]
         public async Task<IHttpActionResult> Register(User user)
         {
@@ -44,14 +42,16 @@ namespace PersonalTaskManagerWeb.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("login")]
         public async Task<IHttpActionResult> Login(User user)
         {
             IdentityUser identity = await repository.FindUser(user.Name, user.Password);
 
             if (identity != null)
             {
-                var token = GenerateLocalAccessTokenResponse(identity.UserName);
-
+                var response = Request.CreateResponse(HttpStatusCode.Created, true);
+                FormsAuthentication.SetAuthCookie(user.Name, false);
                 return Ok();
             }
             else
@@ -60,36 +60,18 @@ namespace PersonalTaskManagerWeb.Controllers
             }
         }
 
-        private JObject GenerateLocalAccessTokenResponse(string userName)
-        { 
-            var tokenExpiration = TimeSpan.FromDays(3);
+        [HttpGet]
+        public IHttpActionResult IsAuthorized()
+        {
+            return Ok((HttpContext.Current.User != null) && HttpContext.Current.User.Identity.IsAuthenticated);
+        }
 
-            ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
-
-           
-
-            var props = new AuthenticationProperties()
-            {
-                IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTime.UtcNow.Add(tokenExpiration),
-            };
-
-            var ticket = new AuthenticationTicket(identity, props);
-
-          //  var accessToken = Startup.OAuthServerOptions.AccessTokenFormat.Protect(ticket);
-
-            JObject tokenResponse = new JObject(
-                                        new JProperty("userName", userName),
-                                        new JProperty("token_type", "bearer"),
-                                        new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),
-                                        new JProperty(".issued", ticket.Properties.IssuedUtc.ToString()),
-                                        new JProperty(".expires", ticket.Properties.ExpiresUtc.ToString())
-        );
-            var token = JsonConvert.DeserializeObject(tokenResponse.ToString());
-            identity.AddClaim(new Claim(ClaimTypes.Name, userName));
-            identity.AddClaim(new Claim("AcessToken", string.Format("Bearer {0}", tokenResponse["access_token"])));
-
-            return tokenResponse;
+        [HttpPost]
+        [Route("logout")]
+        public IHttpActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            return Ok();
         }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
