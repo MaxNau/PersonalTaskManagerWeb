@@ -5,6 +5,10 @@
             $scope.savedSuccessfully = false;
             $scope.message = "";
 
+            $scope.$watch('authenticated', function (newValue, oldValue) {
+                $rootScope.authenticated = newValue;
+            });
+
             $scope.User = {
                 Name: "",
                 Password: "",

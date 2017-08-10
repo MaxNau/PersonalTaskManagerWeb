@@ -11,7 +11,7 @@
     <input name="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" data-ng-model="User.ConfirmPassword" required compare-to="User.Password">
     <div ng-messages="registrationForm.confirmPassword.$error">
         <div ng-message="required" ng-show="registrationForm.confirmPassword.$touched && registrationForm.password.$invalid">This field is required</div>
-        <div ng-message="passMustMatch" ng-show="User.Password !== User.ConfirmPassword">Password must match</div>
+        <div ng-message="passMustMatch" ng-show="registrationForm.confirmPassword.$touched && User.Password !== User.ConfirmPassword">Password must match</div>
     </div>
     <div data-ng-hide="message === ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
         {{message}}

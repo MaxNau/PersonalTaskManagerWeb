@@ -8,6 +8,10 @@
     };
  
     $scope.message = "";
+
+    $scope.$watch('authenticated', function (newValue, oldValue) {
+        $rootScope.authenticated = newValue;
+    });
  
     $scope.login = function () {
         authService.postLogin($scope.User).then(function (response) {
@@ -22,9 +26,10 @@
     };
 
     $scope.logout = function () {
-        authService.logout();
-        $rootScope.authenticated = false;
-        $location.path('/');
+        authService.logout().then(function () {
+            $rootScope.authenticated = false;
+            $location.path('/');
+        });
     };
- 
+
 });

@@ -12,6 +12,10 @@
 
         $rootScope.authenticated = authService.getAuth();
 
+        $scope.$watch('authenticated', function (newValue, oldValue) {
+            $rootScope.authenticated = newValue;
+        });
+
         var Tags = [Tag = {
             Id: 0,
             Name: "Tag1",
@@ -109,13 +113,12 @@
 
         $scope.tags = Tags;
 
-        $scope.addTag = function ($event) {
-            // var $newdiv1 = $("<div id='object1'></div>"),
+   /*     $scope.addTag = function ($event) {
             $event.cancelBubble = true;
             $event.returnValue = false;
             var myElements = angular.element(document.querySelector('#tags'));
             myElements.append('<span class="tag label label-info" style="display:inline">Tag<span><a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a></span></span>');
-        };
+        };*/
 
         $scope.addNewTag = function (tagName) {
             Tag = {
