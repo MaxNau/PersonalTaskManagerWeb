@@ -10,7 +10,7 @@
         $scope.maxSize = 4;
         $scope.totalItems;
 
-        $rootScope.authenticated = authService.getAuth();
+       // $rootScope.authenticated = authService.getAuth();
 
         $scope.$watch('authenticated', function (newValue, oldValue) {
             $rootScope.authenticated = newValue;

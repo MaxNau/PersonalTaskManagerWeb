@@ -63,6 +63,8 @@ namespace PersonalTaskManagerWeb.Controllers
         [HttpGet]
         public IHttpActionResult IsAuthorized()
         {
+            if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                return Ok();
             return Ok((HttpContext.Current.User != null) && HttpContext.Current.User.Identity.IsAuthenticated);
         }
 

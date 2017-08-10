@@ -36,8 +36,9 @@
 });
 
 angular.module('PersonalTaskManager')
-    .run(function ($rootScope) {
+    .run(function ($rootScope, authService) {
         $rootScope.appName = 'PTM App';
+        $rootScope.authenticated = authService.getAuth();
     });
 
 
