@@ -1,9 +1,6 @@
 ﻿using Microsoft.Owin;
-using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
-using PersonalTaskManagerWeb.Providers;
-using System;
 using System.Web.Http;
 
 [assembly: OwinStartup(typeof(PersonalTaskManagerWeb.Startup))]

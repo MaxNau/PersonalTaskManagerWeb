@@ -1,32 +1,32 @@
 ﻿angular.module('PersonalTaskManager', ['ngRoute', 'ui.bootstrap'])
     .config(function ($routeProvider, $locationProvider) {
-            $routeProvider.when("/", {
-                templateUrl: "personaltaskmanagerapp/views/home.html"
-            });
-
-            $routeProvider.when("/register", {
+        $routeProvider.when("/", {
+            templateUrl: "personaltaskmanagerapp/views/home.html",
+            controller: 'loginController'
+        })
+            .when("/register", {
                 templateUrl: "personaltaskmanagerapp/views/register.html",
                 controller: 'RegistrationController'
-            });
-
-            $routeProvider.when("/login", {
+            })
+            .when("/login", {
                 templateUrl: "personaltaskmanagerapp/views/login.html",
                 controller: 'loginController'
-            });
-
-            $routeProvider.when("/tasks", {
+            })
+            .when("/tasks", {
                 templateUrl: "personaltaskmanagerapp/views/tasks.html",
                 controller: 'tasksController'
-            });
-
-            $routeProvider.when("/addnewtask", {
+            })
+            .when("/addnewtask", {
                 templateUrl: "personaltaskmanagerapp/views/addtask.html",
                 controller: 'tasksController'
-            });
-
-            $routeProvider.when("/edittask", {
+            })
+            .when("/edittask", {
                 templateUrl: "personaltaskmanagerapp/views/edittask.html",
                 controller: 'tasksController'
+            })
+            .otherwise({
+                redirectTo: '/',
+                controller: 'loginController'
             });
 
             $locationProvider.html5Mode({
