@@ -126,10 +126,20 @@
                 Name: tagName
             };
 
-            $scope.tags.push(Tag);
+            if (indexOfProp($scope.tags, 'Name', tagName) === -1)
+                $scope.tags.push(Tag);
         };
 
         $scope.removeTag = function (index) {
             $scope.tags.splice(index, 1);
         };
+
+        function indexOfProp(array, prop, value) {
+            for (var i = 0; i < array.length; i += 1) {
+                if (array[i][prop] === value) {
+                    return i;
+                }
+            }
+            return -1;
+        }
     });
