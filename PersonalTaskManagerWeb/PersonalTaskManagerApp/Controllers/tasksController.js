@@ -128,4 +128,8 @@
 
             $scope.tags.push(Tag);
         };
+
+        $scope.removeTag = function (index) {
+            $scope.tags.splice(index, 1);
+        };
     });
