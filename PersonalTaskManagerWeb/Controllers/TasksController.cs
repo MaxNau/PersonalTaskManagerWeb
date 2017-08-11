@@ -1,5 +1,4 @@
 ﻿using PersonalTaskManagerWeb.Repositories;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -15,14 +14,14 @@ namespace PersonalTaskManagerWeb.Controllers
             repository = new TasksRepository();
         }
 
-        public async Task<ICollection<Models.Task>> GetTasks()
+        public async Task<IHttpActionResult> GetTasks()
         {
-            return await repository.GetAll();
+            return Ok(await repository.GetAll());
         }
 
-        public async Task<Models.Task> GetTask(int id)
+        public async Task<IHttpActionResult> GetTask(int id)
         {
-            return await repository.GetTaskById(id);
+            return Ok(await repository.GetTaskById(id));
         }
 
         public async Task<IHttpActionResult> PostTask(Models.Task task)
